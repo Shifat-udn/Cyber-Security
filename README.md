@@ -20,7 +20,7 @@ Python script designed for efficient host exploration and in-depth port analysis
 
 <p align="center">
 Launch the utility: <br/>
-<img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/Shifat-udn/Cyber-Security/blob/main/host_scan_2.png" height="80%" width="80%" alt="host_scan2"/>
 <br />
 <br />
 Select the disk:  <br/>
